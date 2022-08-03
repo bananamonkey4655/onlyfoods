@@ -9,8 +9,10 @@ import {
 } from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
+  const router = useRouter();
   const [query, setQuery] = useState("");
 
   const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
@@ -19,7 +21,9 @@ const Home: NextPage = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    console.log(query);
+
+    router.push(`/eat/${query}`);
+
     setQuery("");
   };
 
