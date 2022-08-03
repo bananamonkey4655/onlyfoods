@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { Heading } from "@chakra-ui/react";
+import { Heading, Highlight, Text } from "@chakra-ui/react";
 
 const Home: NextPage = () => {
   return (
@@ -11,9 +11,8 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <h1 className="text-xl font-bold bg-red-300">Hello world</h1>
-        <h1>Hello text</h1>
-        <Heading>Hello chakra</Heading>
+        <Heading>OnlyFood</Heading>
+        <Text>Food is great!</Text>
       </main>
     </div>
   );
