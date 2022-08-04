@@ -7,48 +7,83 @@ import {
   Img,
   Badge,
   useColorModeValue,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Text,
+  Button,
 } from "@chakra-ui/react";
 
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
-
-interface Restaurant {
-  id: string;
-  name: string;
-  image_url: string;
-  price: string;
-  rating: number;
-  alias: string;
-  categories: { alias: string; title: string }[];
-  review_count: number;
-  location: { address1: string; display_address: string[] };
-}
+import { useState } from "react";
+import RestaurantModal from "../../components/modal";
+import { Restaurant } from "../../types";
 
 const FoodPage = ({ restaurants }: { restaurants: Restaurant[] }) => {
   const router = useRouter();
   const { food } = router.query;
+  const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
+  const handleModal = useDisclosure();
+  const { isOpen, onOpen, onClose } = handleModal;
+
   const bgColor = useColorModeValue("gray.100", "gray.700");
   const textColor = useColorModeValue("gray.800", "gray.300");
+  const headingColor = useColorModeValue("gray.800", "gray.100");
+
+  const handleModalClick = (event: React.SyntheticEvent, id: string) => {
+    const clickedRestaurant = restaurants.find((r) => r.id === id);
+    if (!clickedRestaurant) {
+      return;
+    }
+    setRestaurant(clickedRestaurant);
+    onOpen();
+  };
+
+  if (!restaurants.length) {
+    return <Container>Nothing found!</Container>; //404
+  }
 
   return (
     <Container py={5} maxW="1200px">
+      <RestaurantModal {...handleModal} restaurant={restaurant} />
+
       <Grid
         gap={5}
         templateColumns={{ md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }}
         justifyContent="center"
       >
         {restaurants.map((restaurant) => {
+          const {
+            id,
+            name,
+            image_url,
+            price,
+            rating,
+            alias,
+            categories,
+            review_count,
+            location,
+          } = restaurant;
+
           return (
-            <GridItem justifyContent="center">
+            <GridItem justifyContent="center" key={id}>
               <Box
+                cursor="pointer"
+                onClick={(event) => handleModalClick(event, id)}
                 maxW="sm"
                 borderWidth="1px"
                 borderRadius="lg"
                 overflow="hidden"
               >
                 <Img
-                  src={restaurant.image_url}
-                  alt={restaurant.alias}
+                  src={image_url}
+                  alt={alias}
                   boxSize="sm"
                   objectFit="cover"
                 />
@@ -56,7 +91,7 @@ const FoodPage = ({ restaurants }: { restaurants: Restaurant[] }) => {
                 <Box bgColor={bgColor} color={textColor} p="6">
                   <Box display="flex" alignItems="baseline">
                     <Badge borderRadius="full" px="2" colorScheme="red">
-                      {restaurant.price ? restaurant.price : "N/A"}
+                      {price ?? "N/A"}
                     </Badge>
                     <Box
                       color={textColor}
@@ -66,9 +101,7 @@ const FoodPage = ({ restaurants }: { restaurants: Restaurant[] }) => {
                       textTransform="uppercase"
                       ml="2"
                     >
-                      {restaurant.categories
-                        .map((category) => category.title)
-                        .join(", ")}
+                      {categories.map((category) => category.title).join(", ")}
                     </Box>
                   </Box>
 
@@ -78,15 +111,15 @@ const FoodPage = ({ restaurants }: { restaurants: Restaurant[] }) => {
                     as="h4"
                     lineHeight="tight"
                     noOfLines={1}
-                    color={useColorModeValue("gray.800", "gray.100")}
+                    color={headingColor}
                   >
-                    {restaurant.name}
+                    {name}
                   </Box>
 
                   <Box>
                     <Box as="span" fontSize="sm">
                       {/* {restaurant.location.display_address.join(", ")}             */}
-                      {restaurant.location.address1}
+                      {location.address1}
                     </Box>
                   </Box>
 
@@ -96,11 +129,11 @@ const FoodPage = ({ restaurants }: { restaurants: Restaurant[] }) => {
                       .map((_, i) => (
                         <StarIcon
                           key={i}
-                          color={i < restaurant.rating ? "red.400" : "gray.300"}
+                          color={i < rating ? "red.400" : "gray.300"}
                         />
                       ))}
                     <Box as="span" ml="2" color={textColor} fontSize="sm">
-                      {restaurant.review_count} reviews
+                      {review_count} reviews
                     </Box>
                   </Box>
                 </Box>
