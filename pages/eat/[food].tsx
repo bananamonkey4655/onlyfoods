@@ -21,7 +21,7 @@ interface Restaurant {
   alias: string;
   categories: { alias: string; title: string }[];
   review_count: number;
-  location: { display_address: string[] };
+  location: { address1: string; display_address: string[] };
 }
 
 const FoodPage = ({ restaurants }: { restaurants: Restaurant[] }) => {
@@ -85,7 +85,8 @@ const FoodPage = ({ restaurants }: { restaurants: Restaurant[] }) => {
 
                   <Box>
                     <Box as="span" fontSize="sm">
-                      {restaurant.location.display_address.join(", ")}
+                      {/* {restaurant.location.display_address.join(", ")}             */}
+                      {restaurant.location.address1}
                     </Box>
                   </Box>
 
