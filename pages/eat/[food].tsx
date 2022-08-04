@@ -8,18 +8,10 @@ import {
   Badge,
   useColorModeValue,
   useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Text,
-  Button,
 } from "@chakra-ui/react";
 
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import RestaurantModal from "../../components/modal";
@@ -50,99 +42,111 @@ const FoodPage = ({ restaurants }: { restaurants: Restaurant[] }) => {
   }
 
   return (
-    <Container py={5} maxW="1200px">
-      <RestaurantModal {...handleModal} restaurant={restaurant} />
+    <>
+      <Head>
+        <title>OnlyFoods</title>
+        <meta
+          name="description"
+          content="A website that helps you search for food in Singapore"
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Container py={5} maxW="1200px">
+        <RestaurantModal {...handleModal} restaurant={restaurant} />
 
-      <Grid
-        gap={5}
-        templateColumns={{ md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }}
-        justifyContent="center"
-      >
-        {restaurants.map((restaurant) => {
-          const {
-            id,
-            name,
-            image_url,
-            price,
-            rating,
-            alias,
-            categories,
-            review_count,
-            location,
-          } = restaurant;
+        <Grid
+          gap={5}
+          templateColumns={{ md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }}
+          justifyContent="center"
+        >
+          {restaurants.map((restaurant) => {
+            const {
+              id,
+              name,
+              image_url,
+              price,
+              rating,
+              alias,
+              categories,
+              review_count,
+              location,
+            } = restaurant;
 
-          return (
-            <GridItem justifyContent="center" key={id}>
-              <Box
-                cursor="pointer"
-                onClick={(event) => handleModalClick(event, id)}
-                maxW="sm"
-                borderWidth="1px"
-                borderRadius="lg"
-                overflow="hidden"
-              >
-                <Img
-                  src={image_url}
-                  alt={alias}
-                  boxSize="sm"
-                  objectFit="cover"
-                />
+            return (
+              <GridItem justifyContent="center" key={id}>
+                <Box
+                  cursor="pointer"
+                  onClick={(event) => handleModalClick(event, id)}
+                  maxW="sm"
+                  borderWidth="1px"
+                  borderRadius="lg"
+                  overflow="hidden"
+                >
+                  <Img
+                    src={image_url}
+                    alt={alias}
+                    boxSize="sm"
+                    objectFit="cover"
+                  />
 
-                <Box bgColor={bgColor} color={textColor} p="6">
-                  <Box display="flex" alignItems="baseline">
-                    <Badge borderRadius="full" px="2" colorScheme="red">
-                      {price ?? "N/A"}
-                    </Badge>
+                  <Box bgColor={bgColor} color={textColor} p="6">
+                    <Box display="flex" alignItems="baseline">
+                      <Badge borderRadius="full" px="2" colorScheme="red">
+                        {price ?? "N/A"}
+                      </Badge>
+                      <Box
+                        color={textColor}
+                        fontWeight="semibold"
+                        letterSpacing="wide"
+                        fontSize="xs"
+                        textTransform="uppercase"
+                        ml="2"
+                      >
+                        {categories
+                          .map((category) => category.title)
+                          .join(", ")}
+                      </Box>
+                    </Box>
+
                     <Box
-                      color={textColor}
+                      mt="1"
                       fontWeight="semibold"
-                      letterSpacing="wide"
-                      fontSize="xs"
-                      textTransform="uppercase"
-                      ml="2"
+                      as="h4"
+                      lineHeight="tight"
+                      noOfLines={1}
+                      color={headingColor}
                     >
-                      {categories.map((category) => category.title).join(", ")}
+                      {name}
                     </Box>
-                  </Box>
 
-                  <Box
-                    mt="1"
-                    fontWeight="semibold"
-                    as="h4"
-                    lineHeight="tight"
-                    noOfLines={1}
-                    color={headingColor}
-                  >
-                    {name}
-                  </Box>
-
-                  <Box>
-                    <Box as="span" fontSize="sm">
-                      {/* {restaurant.location.display_address.join(", ")}             */}
-                      {location.address1}
+                    <Box>
+                      <Box as="span" fontSize="sm">
+                        {/* {restaurant.location.display_address.join(", ")}             */}
+                        {location.address1}
+                      </Box>
                     </Box>
-                  </Box>
 
-                  <Box display="flex" mt="2" alignItems="center">
-                    {Array(5)
-                      .fill("")
-                      .map((_, i) => (
-                        <StarIcon
-                          key={i}
-                          color={i < rating ? "red.400" : "gray.300"}
-                        />
-                      ))}
-                    <Box as="span" ml="2" color={textColor} fontSize="sm">
-                      {review_count} reviews
+                    <Box display="flex" mt="2" alignItems="center">
+                      {Array(5)
+                        .fill("")
+                        .map((_, i) => (
+                          <StarIcon
+                            key={i}
+                            color={i < rating ? "red.400" : "gray.300"}
+                          />
+                        ))}
+                      <Box as="span" ml="2" color={textColor} fontSize="sm">
+                        {review_count} reviews
+                      </Box>
                     </Box>
                   </Box>
                 </Box>
-              </Box>
-            </GridItem>
-          );
-        })}
-      </Grid>
-    </Container>
+              </GridItem>
+            );
+          })}
+        </Grid>
+      </Container>
+    </>
   );
 };
 

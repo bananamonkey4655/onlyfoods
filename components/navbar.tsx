@@ -12,7 +12,7 @@ const Navbar = () => {
         <Link href="/">
           <a className="text-2xl font-semibold flex justify-between items-center">
             <IoFastFoodOutline />
-            <span className="px-2">OnlyFood</span>
+            <span className="px-2">OnlyFoods</span>
           </a>
         </Link>
         <IconButton

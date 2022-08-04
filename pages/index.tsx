@@ -8,14 +8,18 @@ import {
 import { Search2Icon } from "@chakra-ui/icons";
 
 import React, { useState } from "react";
+import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import type { NextPage } from "next";
 import Image from "next/image";
+
+import { foodData } from "../utils/foodImages";
+import { getRandomItemFromArray } from "../utils";
 
 const Home: NextPage = () => {
   const router = useRouter();
   const [query, setQuery] = useState("");
+  const randomFoodData = getRandomItemFromArray(foodData);
 
   const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
     setQuery(event.currentTarget.value);
@@ -32,7 +36,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>OnlyFood</title>
+        <title>OnlyFoods</title>
         <meta
           name="description"
           content="A website that helps you search for food in Singapore"
@@ -51,7 +55,11 @@ const Home: NextPage = () => {
                 onChange={handleChange}
                 placeholder="pancakes, sushi, etc."
               />
-              <InputRightElement color="gray.300" fontSize="1.2em">
+              <InputRightElement
+                color="gray.300"
+                fontSize="1.2em"
+                onClick={handleSubmit}
+              >
                 <IconButton
                   colorScheme="gray"
                   aria-label="Search database"
@@ -61,12 +69,13 @@ const Home: NextPage = () => {
             </InputGroup>
           </form>
         </section>
-        <section className="w-full lg:w-auto flex justify-center items-center">
+        <section className="w-full lg:w-auto flex justify-center items-center cursor-pointer">
           <Image
-            src="/pancake.png"
+            src={randomFoodData?.image!}
             width="500"
             height="400"
-            alt="Pancakes. Yum!"
+            alt="Food. Yum!"
+            onClick={() => router.push(`/eat/${randomFoodData?.name!}`)}
           />
         </section>
       </main>
