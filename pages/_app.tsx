@@ -9,7 +9,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
       <Navbar />
-      <Component {...pageProps} />
+      <Component {...pageProps} style={{ height: "100%" }} />
     </ChakraProvider>
   );
 }

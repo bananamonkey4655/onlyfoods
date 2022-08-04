@@ -27,7 +27,7 @@ interface Restaurant {
 const FoodPage = ({ restaurants }: { restaurants: Restaurant[] }) => {
   const router = useRouter();
   const { food } = router.query;
-  const bgColor = useColorModeValue("gray.100", "gray.800");
+  const bgColor = useColorModeValue("gray.100", "gray.700");
   const textColor = useColorModeValue("gray.800", "gray.300");
 
   return (
