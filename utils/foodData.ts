@@ -11,7 +11,7 @@ export const foodData = [
   { name: "noodles", image: noodles },
   { name: "sushi", image: sushi },
   { name: "burger", image: burger },
-  { name: "iceCream", image: iceCream },
+  { name: "ice_cream", image: iceCream },
   { name: "chicken", image: chicken },
   { name: "pizza", image: pizza },
 ];

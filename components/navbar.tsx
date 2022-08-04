@@ -1,9 +1,11 @@
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { IconButton, useColorMode } from "@chakra-ui/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { IoFastFoodOutline } from "react-icons/io5";
 
 const Navbar = () => {
+  const router = useRouter();
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (

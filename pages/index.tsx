@@ -7,18 +7,20 @@ import {
 } from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
 
-import React, { useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import type { NextPage } from "next";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { foodData } from "../utils/foodData";
 import { getRandomItemFromArray } from "../utils";
 
 const Home: NextPage = () => {
   const router = useRouter();
   const [query, setQuery] = useState("");
-  const randomFoodData = getRandomItemFromArray(foodData);
+  const [currentFood, setCurrentFood] = useState(() =>
+    getRandomItemFromArray(foodData)
+  );
 
   const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
     setQuery(event.currentTarget.value);
@@ -31,6 +33,14 @@ const Home: NextPage = () => {
 
     setQuery("");
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentFood(getRandomItemFromArray(foodData));
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <>
@@ -66,11 +76,11 @@ const Home: NextPage = () => {
         </section>
         <section className="w-full lg:w-auto flex justify-center items-center cursor-pointer">
           <Image
-            src={randomFoodData?.image!}
+            src={currentFood?.image!}
             width="500"
             height="400"
             alt="Pancakes. Yum!"
-            onClick={() => router.push(`/eat/${randomFoodData?.name!}`)}
+            onClick={() => router.push(`/eat/${currentFood?.name!}`)}
           />
         </section>
       </main>
