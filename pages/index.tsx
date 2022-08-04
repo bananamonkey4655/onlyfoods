@@ -8,12 +8,11 @@ import {
 import { Search2Icon } from "@chakra-ui/icons";
 
 import React, { useState } from "react";
-import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import type { NextPage } from "next";
 import Image from "next/image";
-
-import { foodData } from "../utils/foodImages";
+import { foodData } from "../utils/foodData";
 import { getRandomItemFromArray } from "../utils";
 
 const Home: NextPage = () => {
@@ -55,11 +54,7 @@ const Home: NextPage = () => {
                 onChange={handleChange}
                 placeholder="pancakes, sushi, etc."
               />
-              <InputRightElement
-                color="gray.300"
-                fontSize="1.2em"
-                onClick={handleSubmit}
-              >
+              <InputRightElement color="gray.300" fontSize="1.2em">
                 <IconButton
                   colorScheme="gray"
                   aria-label="Search database"
@@ -74,7 +69,7 @@ const Home: NextPage = () => {
             src={randomFoodData?.image!}
             width="500"
             height="400"
-            alt="Food. Yum!"
+            alt="Pancakes. Yum!"
             onClick={() => router.push(`/eat/${randomFoodData?.name!}`)}
           />
         </section>

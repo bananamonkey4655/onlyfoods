@@ -9,7 +9,7 @@ import {
   Button,
   Text,
 } from "@chakra-ui/react";
-import { Restaurant } from "../types";
+import { Restaurant } from "../utils/types";
 
 const RestaurantModal = ({
   isOpen,
