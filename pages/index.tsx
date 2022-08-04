@@ -1,15 +1,17 @@
-import type { NextPage } from "next";
-import Head from "next/head";
 import {
   Container,
   Heading,
   Input,
   InputGroup,
-  InputLeftElement,
+  InputRightElement,
+  IconButton,
 } from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
+
 import React, { useState } from "react";
 import { useRouter } from "next/router";
+import Head from "next/head";
+import type { NextPage } from "next";
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -38,12 +40,18 @@ const Home: NextPage = () => {
         <Heading>Find tasty food you love</Heading>
         <form onSubmit={handleSubmit}>
           <InputGroup>
-            <InputLeftElement
-              children={<Search2Icon />}
+            <Input value={query} onChange={handleChange} placeholder="Search" />
+            <InputRightElement
+              children={
+                <IconButton
+                  colorScheme="gray"
+                  aria-label="Search database"
+                  icon={<Search2Icon />}
+                />
+              }
               color="gray.300"
               fontSize="1.2em"
             />
-            <Input value={query} onChange={handleChange} placeholder="Search" />
           </InputGroup>
         </form>
       </Container>
