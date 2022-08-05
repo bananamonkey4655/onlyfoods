@@ -10,16 +10,20 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 
-import { GetServerSideProps, GetServerSidePropsContext } from "next";
-import Head from "next/head";
+import {
+  // GetServerSideProps,
+  // GetServerSidePropsContext,
+  GetStaticProps,
+  GetStaticPropsContext,
+} from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import RestaurantModal from "../../components/modal";
 import { Restaurant } from "../../utils/types";
+import { foodData } from "../../utils/foodData";
 
 const FoodPage = ({ restaurants }: { restaurants: Restaurant[] }) => {
-  const router = useRouter();
-  const { food } = router.query;
+  const { isFallback } = useRouter();
   const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
   const handleModal = useDisclosure();
   const { isOpen, onOpen, onClose } = handleModal;
@@ -37,20 +41,16 @@ const FoodPage = ({ restaurants }: { restaurants: Restaurant[] }) => {
     onOpen();
   };
 
+  if (isFallback) {
+    return <div>Loading...</div>; //TODO: skeleton
+  }
+
   if (!restaurants.length) {
     return <Container>Nothing found!</Container>; //404
   }
 
   return (
     <>
-      <Head>
-        <title>OnlyFoods</title>
-        <meta
-          name="description"
-          content="A website that helps you search for food in Singapore"
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
       <Container py={5} maxW="1200px">
         <RestaurantModal {...handleModal} restaurant={restaurant} />
 
@@ -121,7 +121,6 @@ const FoodPage = ({ restaurants }: { restaurants: Restaurant[] }) => {
 
                     <Box>
                       <Box as="span" fontSize="sm">
-                        {/* {restaurant.location.display_address.join(", ")}             */}
                         {location.address1}
                       </Box>
                     </Box>
@@ -150,15 +149,16 @@ const FoodPage = ({ restaurants }: { restaurants: Restaurant[] }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (
-  context: GetServerSidePropsContext
-) => {
-  const { food } = context.params!;
+export const getStaticProps: GetStaticProps = async ({
+  params,
+}: GetStaticPropsContext) => {
+  const { food } = params!;
   const config = {
     headers: {
       Authorization: `Bearer ${process.env.YELP_APIKEY}`,
     },
   };
+
   const res = await fetch(
     `https://api.yelp.com/v3/businesses/search?location=singapore&term=food_${food}`,
     config
@@ -171,5 +171,44 @@ export const getServerSideProps: GetServerSideProps = async (
     },
   };
 };
+
+// Only pre-build these paths
+export const getStaticPaths = async () => {
+  const paths = foodData.map((food) => {
+    return {
+      params: {
+        food: food.name,
+      },
+    };
+  });
+
+  return {
+    paths,
+    fallback: true, // Any other paths build in run-time
+  };
+};
+
+/** SSR */
+// export const getServerSideProps: GetServerSideProps = async (
+//   context: GetServerSidePropsContext
+// ) => {
+//   const { food } = context.params!;
+//   const config = {
+//     headers: {
+//       Authorization: `Bearer ${process.env.YELP_APIKEY}`,
+//     },
+//   };
+//   const res = await fetch(
+//     `https://api.yelp.com/v3/businesses/search?location=singapore&term=food_${food}`,
+//     config
+//   );
+//   const data = await res.json();
+
+//   return {
+//     props: {
+//       restaurants: data.businesses,
+//     },
+//   };
+// };
 
 export default FoodPage;

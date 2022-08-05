@@ -9,9 +9,8 @@ import { Search2Icon } from "@chakra-ui/icons";
 
 import React, { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/router";
-import Head from "next/head";
 import type { NextPage } from "next";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import { foodData } from "../utils/foodData";
 import { getRandomItemFromArray } from "../utils";
 
@@ -43,48 +42,44 @@ const Home: NextPage = () => {
   }, []);
 
   return (
-    <>
-      <Head>
-        <title>OnlyFoods</title>
-        <meta
-          name="description"
-          content="A website that helps you search for food in Singapore"
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <main className="flex flex-col lg:flex-row lg:gap-36 flex-auto justify-center items-center px-8">
-        <section className="flex-col">
-          <Heading>
-            Find <span className="text-red-500">tasty</span> food you love
-          </Heading>
-          <form className="py-3" onSubmit={handleSubmit}>
-            <InputGroup>
-              <Input
-                value={query}
-                onChange={handleChange}
-                placeholder="pancakes, sushi, etc."
-              />
-              <InputRightElement color="gray.300" fontSize="1.2em">
+    <main className="flex flex-col lg:flex-row lg:gap-36 flex-auto justify-center items-center px-8">
+      <section className="flex-col">
+        <Heading>
+          Find <span className="text-red-500">tasty</span> food you love
+        </Heading>
+        <form className="py-3" onSubmit={handleSubmit}>
+          <InputGroup>
+            <Input
+              value={query}
+              onChange={handleChange}
+              placeholder="noodles, sushi, etc."
+            />
+            <InputRightElement color="gray.300" fontSize="1.2em">
+              <a
+                href={
+                  `/eat/${query}` /** Issue with fallback:true not displaying when using router.push/Link */
+                }
+              >
                 <IconButton
                   colorScheme="gray"
                   aria-label="Search database"
                   icon={<Search2Icon />}
                 />
-              </InputRightElement>
-            </InputGroup>
-          </form>
-        </section>
-        <section className="w-full lg:w-auto flex justify-center items-center cursor-pointer">
-          <Image
-            src={currentFood?.image!}
-            width="500"
-            height="400"
-            alt="Pancakes. Yum!"
-            onClick={() => router.push(`/eat/${currentFood?.name!}`)}
-          />
-        </section>
-      </main>
-    </>
+              </a>
+            </InputRightElement>
+          </InputGroup>
+        </form>
+      </section>
+      <section className="w-full lg:w-auto flex justify-center items-center cursor-pointer">
+        <Image
+          src={currentFood?.image!}
+          width="500"
+          height="400"
+          alt="Pancakes. Yum!"
+          onClick={() => router.push(`/eat/${currentFood?.name!}`)}
+        />
+      </section>
+    </main>
   );
 };
 
