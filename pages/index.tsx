@@ -4,8 +4,9 @@ import {
   InputGroup,
   InputRightElement,
   IconButton,
+  Spinner,
 } from "@chakra-ui/react";
-import { Search2Icon } from "@chakra-ui/icons";
+import { Search2Icon, SpinnerIcon } from "@chakra-ui/icons";
 
 import React, { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/router";
@@ -16,6 +17,7 @@ import { getRandomItemFromArray } from "../utils";
 
 const Home: NextPage = () => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState("");
   const [currentFood, setCurrentFood] = useState(() =>
     getRandomItemFromArray(foodData)
@@ -29,6 +31,7 @@ const Home: NextPage = () => {
     event.preventDefault();
 
     router.push(`/eat/${query}`);
+    setIsLoading(true);
 
     setQuery("");
   };
@@ -60,11 +63,15 @@ const Home: NextPage = () => {
                   `/eat/${query}` /** Issue with fallback:true not displaying when using router.push/Link */
                 }
               >
-                <IconButton
-                  colorScheme="gray"
-                  aria-label="Search database"
-                  icon={<Search2Icon />}
-                />
+                {isLoading ? (
+                  <Spinner label="loading..." size="sm" />
+                ) : (
+                  <IconButton
+                    colorScheme="gray"
+                    aria-label="Search database"
+                    icon={<Search2Icon />}
+                  />
+                )}
               </a>
             </InputRightElement>
           </InputGroup>
