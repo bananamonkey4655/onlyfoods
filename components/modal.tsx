@@ -7,7 +7,7 @@ import {
   ModalFooter,
   ModalCloseButton,
   Button,
-  Img,
+  Image as ChakraImage,
   Badge,
   Box,
   useColorModeValue,
@@ -56,7 +56,7 @@ const RestaurantModal = ({
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <Img src={image_url} alt={alias} />
+        <ChakraImage src={image_url} fallbackSrc="/burger.png" alt={alias} />
         <ModalCloseButton />
         <Box bgColor={bgColor} color={textColor} p="6">
           <Box display="flex" alignItems="baseline">

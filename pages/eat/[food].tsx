@@ -4,6 +4,7 @@ import {
   GridItem,
   Box,
   Container,
+  Image,
   Img,
   Badge,
   useColorModeValue,
@@ -82,8 +83,9 @@ const FoodPage = ({ restaurants }: { restaurants: Restaurant[] }) => {
                   borderRadius="lg"
                   overflow="hidden"
                 >
-                  <Img
+                  <Image
                     src={image_url}
+                    fallbackSrc="/burger.png"
                     alt={alias}
                     boxSize="sm"
                     objectFit="cover"
