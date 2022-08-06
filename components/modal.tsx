@@ -1,4 +1,5 @@
-import { StarIcon } from "@chakra-ui/icons";
+import yelp_logo from "../public/yelp_logo_light.png";
+import { ExternalLinkIcon, StarIcon } from "@chakra-ui/icons";
 import {
   Modal,
   ModalOverlay,
@@ -11,8 +12,10 @@ import {
   Box,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import Image from "next/image";
 import { Restaurant } from "../utils/types";
+import { Router } from "next/router";
+import Link from "next/link";
 
 const RestaurantModal = ({
   isOpen,
@@ -28,6 +31,7 @@ const RestaurantModal = ({
   const bgColor = useColorModeValue("gray.100", "gray.700");
   const textColor = useColorModeValue("gray.800", "gray.300");
   const headingColor = useColorModeValue("gray.800", "gray.100");
+  const buttonColor = useColorModeValue("gray.300", "gray.500");
 
   if (!restaurant) {
     return null;
@@ -37,6 +41,7 @@ const RestaurantModal = ({
     id,
     name,
     image_url,
+    url,
     price,
     phone,
     rating,
@@ -108,6 +113,13 @@ const RestaurantModal = ({
           <Button colorScheme="red" mr={3} onClick={onClose}>
             Close
           </Button>
+          <a href={url} target="_blank" rel="noopener noreferrer">
+            <Button bgColor={buttonColor}>
+              <Image src={yelp_logo} alt="Yelp Logo" height="25" width="60" />
+              <div className="w-2" />
+              <ExternalLinkIcon />
+            </Button>
+          </a>
         </ModalFooter>
       </ModalContent>
     </Modal>
