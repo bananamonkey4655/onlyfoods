@@ -27,11 +27,15 @@ const Home: NextPage = () => {
     setQuery(event.currentTarget.value);
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent, food?: string) => {
     event.preventDefault();
-
-    router.push(`/eat/${query}`);
     setIsLoading(true);
+
+    if (food) {
+      router.push(`/eat/${food}`);
+    } else {
+      router.push(`/eat/${query}`);
+    }
 
     setQuery("");
   };
@@ -83,7 +87,7 @@ const Home: NextPage = () => {
           width="500"
           height="400"
           alt="Pancakes. Yum!"
-          onClick={() => router.push(`/eat/${currentFood?.name!}`)}
+          onClick={(event) => handleSubmit(event, currentFood?.name)}
         />
       </section>
     </main>
