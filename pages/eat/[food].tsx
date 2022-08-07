@@ -17,6 +17,7 @@ import RestaurantModal from "../../components/modal";
 import { Restaurant } from "../../utils/types";
 import { foodData } from "../../utils/foodData";
 import { useRestaurantStore } from "../../utils/useRestaurantStore";
+import Error from "../../components/error";
 
 const FoodPage = ({ restaurants }: { restaurants: Restaurant[] }) => {
   const { isFallback } = useRouter();
@@ -52,7 +53,7 @@ const FoodPage = ({ restaurants }: { restaurants: Restaurant[] }) => {
   }
 
   if (!sortedRestaurants.length) {
-    return <Container>Nothing found!</Container>; //404
+    return <Error />;
   }
 
   return (
@@ -172,9 +173,11 @@ export const getStaticProps: GetStaticProps = async ({
     config
   );
 
-  // if (!response.ok) {
-  //   throw new Error("Network response was not ok");
-  // }
+  if (!response.ok) {
+    return {
+      notFound: true,
+    };
+  }
 
   const data = await response.json();
 
@@ -201,7 +204,7 @@ export const getStaticPaths = async () => {
 
   return {
     paths,
-    fallback: true, // Any other paths build during run-time
+    fallback: "blocking", // Any other paths build during run-time
   };
 };
 
