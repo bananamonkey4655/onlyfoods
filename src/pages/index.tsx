@@ -67,22 +67,20 @@ const Home: NextPage = () => {
               onChange={handleChange}
               placeholder="noodles, sushi, etc."
             />
-            <InputRightElement color="gray.300" fontSize="1.2em">
-              <a
-                href={
-                  `/eat/${query}` /** Issue with fallback:true not displaying when using router.push/Link */
-                }
-              >
-                {isLoading ? (
-                  <Spinner label="loading..." size="sm" />
-                ) : (
-                  <IconButton
-                    colorScheme="gray"
-                    aria-label="Search database"
-                    icon={<Search2Icon />}
-                  />
-                )}
-              </a>
+            <InputRightElement
+              color="gray.300"
+              fontSize="1.2em"
+              onClick={handleSubmit}
+            >
+              {isLoading ? (
+                <Spinner label="loading..." size="sm" />
+              ) : (
+                <IconButton
+                  colorScheme="gray"
+                  aria-label="Search database"
+                  icon={<Search2Icon />}
+                />
+              )}
             </InputRightElement>
           </InputGroup>
         </form>
