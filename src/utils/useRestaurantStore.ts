@@ -1,4 +1,4 @@
-import { Restaurant } from "./types";
+import { Restaurant } from "@/utils/types";
 
 import create from "zustand";
 

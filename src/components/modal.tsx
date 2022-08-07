@@ -1,4 +1,3 @@
-import yelp_logo from "../public/yelp_logo_light.png";
 import { ExternalLinkIcon, StarIcon } from "@chakra-ui/icons";
 import {
   Modal,
@@ -12,10 +11,10 @@ import {
   Box,
   useColorModeValue,
 } from "@chakra-ui/react";
+import yelp_logo from "/public/yelp_logo_light.png";
+
 import Image from "next/image";
-import { Restaurant } from "../utils/types";
-import { Router } from "next/router";
-import Link from "next/link";
+import { Restaurant } from "@/utils/types";
 
 const RestaurantModal = ({
   isOpen,

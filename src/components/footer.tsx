@@ -1,7 +1,8 @@
-import yelp_light from "../public/yelp_logo_light.png";
-import yelp_dark from "../public/yelp_logo_dark.png";
-import Image from "next/image";
 import { useColorModeValue } from "@chakra-ui/react";
+import yelp_light from "public/yelp_logo_light.png";
+import yelp_dark from "public/yelp_logo_dark.png";
+
+import Image from "next/image";
 
 const Footer = () => {
   const yelpLogo = useColorModeValue(yelp_light, yelp_dark);

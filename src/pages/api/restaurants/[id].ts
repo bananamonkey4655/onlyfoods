@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { Restaurant } from "../../../utils/types";
+import { Restaurant } from "@/utils/types";
 
 const handler = async (
   req: NextApiRequest,

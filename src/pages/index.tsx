@@ -9,11 +9,12 @@ import {
 import { Search2Icon } from "@chakra-ui/icons";
 
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import type { NextPage } from "next";
+import { useRouter } from "next/router";
 import Image from "next/image";
-import { foodData } from "../utils/foodData";
-import { getRandomItemFromArray } from "../utils";
+
+import { getRandomItemFromArray } from "@/utils";
+import { foodData } from "@/utils/foodData";
 
 const Home: NextPage = () => {
   const router = useRouter();

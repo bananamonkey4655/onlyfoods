@@ -8,10 +8,20 @@ export interface Restaurant {
   rating: number;
   alias: string;
   transcations: string[];
-  categories: Array<{ alias: string; title: string }>;
+  categories: Category[];
   review_count: number;
-  location: { address1: string; display_address: string[] };
+  location: Location;
   display_phone?: string;
   photos?: string[];
   hours?: Array<{ is_open_now: boolean }>;
+}
+
+interface Location {
+  address1: string;
+  display_address: string[];
+}
+
+interface Category {
+  alias: string;
+  title: string;
 }

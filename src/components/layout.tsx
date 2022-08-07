@@ -1,7 +1,8 @@
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
-import Footer from "./footer";
-import Navbar from "./navbar";
+
+import Footer from "@/components/footer";
+import Navbar from "@/components/navbar";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const router = useRouter();

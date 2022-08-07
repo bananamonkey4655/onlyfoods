@@ -7,7 +7,8 @@ import {
   MenuOptionGroup,
   IconButton,
 } from "@chakra-ui/react";
-import { useRestaurantStore } from "../utils/useRestaurantStore";
+
+import { useRestaurantStore } from "@/utils/useRestaurantStore";
 
 const FilterMenu = () => {
   const {

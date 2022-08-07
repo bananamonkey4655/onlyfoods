@@ -6,6 +6,7 @@ import {
   AlertTitle,
   IconButton,
 } from "@chakra-ui/react";
+
 import { useRouter } from "next/router";
 
 const Error = () => {
@@ -26,14 +27,14 @@ const Error = () => {
           No restaurants found!
         </AlertTitle>
         <AlertDescription maxWidth="sm">
-          Try a different search term.{" "}
-          <IconButton
-            aria-label="Return to homepage"
-            icon={<ArrowBackIcon />}
-            onClick={() => router.push("/")}
-          >
-            Go back
-          </IconButton>
+          <div className="flex flex-col items-center gap-2">
+            <span>Try a different search term.</span>
+            <IconButton
+              aria-label="Return to homepage"
+              icon={<ArrowBackIcon />}
+              onClick={() => router.push("/")}
+            />
+          </div>
         </AlertDescription>
       </Alert>
     </main>
