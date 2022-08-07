@@ -15,7 +15,7 @@ const Footer = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <span className="text-sm hover:text-gray-500">
+          <span className="text-xs hover:text-gray-500">
             Assets from flaticon
           </span>
         </a>
@@ -25,9 +25,9 @@ const Footer = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <p className="text-sm gap-1 flex items-center justify-center hover:text-gray-500">
+          <p className="text-xs gap-1 flex items-center justify-center hover:text-gray-500">
             <span className="px-1">Powered by</span>
-            <Image src={yelpLogo} height="20" width="50" />
+            <Image src={yelpLogo} alt="Yelp Logo" height="20" width="50" />
           </p>
         </a>
       </div>

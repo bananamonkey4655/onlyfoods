@@ -3,8 +3,9 @@ import { IconButton, useColorMode } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { IoFastFoodOutline } from "react-icons/io5";
+import FilterMenu from "./filterMenu";
 
-const Navbar = () => {
+const Navbar = ({ isHomePage }: { isHomePage: boolean }) => {
   const router = useRouter();
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -17,11 +18,14 @@ const Navbar = () => {
             <span className="px-2">OnlyFoods</span>
           </a>
         </Link>
-        <IconButton
-          aria-label="Toggle theme"
-          onClick={toggleColorMode}
-          icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
-        />
+        <div>
+          {!isHomePage && <FilterMenu />}
+          <IconButton
+            aria-label="Toggle theme"
+            onClick={toggleColorMode}
+            icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+          />
+        </div>
       </nav>
     </header>
   );

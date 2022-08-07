@@ -1,44 +1,49 @@
 import { StarIcon } from "@chakra-ui/icons";
 import {
-  Grid,
-  GridItem,
+  Image,
   Box,
   Container,
-  Image,
-  Img,
+  Grid,
+  GridItem,
   Badge,
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
 
-import {
-  // GetServerSideProps,
-  // GetServerSidePropsContext,
-  GetStaticProps,
-  GetStaticPropsContext,
-} from "next";
+import { GetStaticProps, GetStaticPropsContext } from "next";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RestaurantModal from "../../components/modal";
 import { Restaurant } from "../../utils/types";
 import { foodData } from "../../utils/foodData";
+import { useRestaurantStore } from "../../utils/useRestaurantStore";
 
 const FoodPage = ({ restaurants }: { restaurants: Restaurant[] }) => {
   const { isFallback } = useRouter();
-  const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
+
+  const [clickedRestaurant, setClickedRestaurant] = useState<Restaurant | null>(
+    null
+  );
+  const { sortedRestaurants } = useRestaurantStore();
+
   const handleModal = useDisclosure();
   const { isOpen, onOpen, onClose } = handleModal;
 
+  // Required for zustand to work? Otherwise stores are not updated
+  useEffect(() => {
+    useRestaurantStore.getState().setRestaurants(restaurants);
+  }, [restaurants]);
+
   const bgColor = useColorModeValue("gray.100", "gray.700");
-  const textColor = useColorModeValue("gray.800", "gray.300");
   const headingColor = useColorModeValue("gray.800", "gray.100");
+  const textColor = useColorModeValue("gray.800", "gray.300");
 
   const handleModalClick = (event: React.SyntheticEvent, id: string) => {
-    const clickedRestaurant = restaurants.find((r) => r.id === id);
-    if (!clickedRestaurant) {
+    const currRestaurant = sortedRestaurants.find((r) => r.id === id);
+    if (!currRestaurant) {
       return;
     }
-    setRestaurant(clickedRestaurant);
+    setClickedRestaurant(currRestaurant);
     onOpen();
   };
 
@@ -46,21 +51,21 @@ const FoodPage = ({ restaurants }: { restaurants: Restaurant[] }) => {
     return <div>Loading...</div>; //TODO: skeleton
   }
 
-  if (!restaurants.length) {
+  if (!sortedRestaurants.length) {
     return <Container>Nothing found!</Container>; //404
   }
 
   return (
     <>
       <Container py={5} maxW="1200px">
-        <RestaurantModal {...handleModal} restaurant={restaurant} />
+        <RestaurantModal {...handleModal} restaurant={clickedRestaurant} />
 
         <Grid
           gap={5}
           templateColumns={{ md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }}
           justifyContent="center"
         >
-          {restaurants.map((restaurant) => {
+          {sortedRestaurants.map((restaurant) => {
             const {
               id,
               name,
@@ -155,21 +160,31 @@ export const getStaticProps: GetStaticProps = async ({
   params,
 }: GetStaticPropsContext) => {
   const { food } = params!;
+
   const config = {
     headers: {
       Authorization: `Bearer ${process.env.YELP_APIKEY}`,
     },
   };
 
-  const res = await fetch(
+  const response = await fetch(
     `https://api.yelp.com/v3/businesses/search?location=singapore&term=food_${food}`,
     config
   );
-  const data = await res.json();
 
+  // if (!response.ok) {
+  //   throw new Error("Network response was not ok");
+  // }
+
+  const data = await response.json();
+
+  const restaurants: Restaurant[] = data.businesses;
+
+  useRestaurantStore.getState().setRestaurants(restaurants);
   return {
     props: {
-      restaurants: data.businesses,
+      restaurants,
+      // JSON.parse(JSON.stringify(restaurants)); Serializing?
     },
   };
 };
@@ -186,7 +201,7 @@ export const getStaticPaths = async () => {
 
   return {
     paths,
-    fallback: true, // Any other paths build in run-time
+    fallback: true, // Any other paths build during run-time
   };
 };
 

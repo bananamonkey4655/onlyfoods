@@ -33,10 +33,15 @@ const Home: NextPage = () => {
 
     if (food) {
       router.push(`/eat/${food}`);
-    } else {
-      router.push(`/eat/${query}`);
+      return;
     }
 
+    if (!query) {
+      console.log(query);
+      return;
+    }
+
+    router.push(`/eat/${query}`);
     setQuery("");
   };
 

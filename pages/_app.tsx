@@ -4,6 +4,12 @@ import { ChakraProvider } from "@chakra-ui/react";
 import Head from "next/head";
 import type { AppProps } from "next/app";
 import Layout from "../components/layout";
+// import {
+//   Hydrate,
+//   QueryClient,
+//   QueryClientProvider,
+// } from "@tanstack/react-query";
+// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
