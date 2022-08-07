@@ -6,9 +6,9 @@ import {
   IconButton,
   Spinner,
 } from "@chakra-ui/react";
-import { Search2Icon, SpinnerIcon } from "@chakra-ui/icons";
+import { Search2Icon } from "@chakra-ui/icons";
 
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import type { NextPage } from "next";
 import Image from "next/image";
@@ -45,13 +45,13 @@ const Home: NextPage = () => {
     setQuery("");
   };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentFood(getRandomItemFromArray(foodData));
-    }, 3000);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setCurrentFood(getRandomItemFromArray(foodData));
+  //   }, 3000);
 
-    return () => clearInterval(interval);
-  }, []);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   return (
     <main className="flex flex-col lg:flex-row lg:gap-36 flex-auto justify-center items-center px-8">

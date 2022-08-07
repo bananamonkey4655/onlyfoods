@@ -1,27 +1,24 @@
-import { FaRegThumbsDown, FaRegThumbsUp } from "react-icons/fa";
 import { MdManageSearch } from "react-icons/md";
 import {
   Menu,
   MenuButton,
   MenuList,
-  MenuItem,
   MenuItemOption,
-  MenuGroup,
   MenuOptionGroup,
-  MenuDivider,
-  Image,
   IconButton,
-  Icon,
 } from "@chakra-ui/react";
-import { useRouter } from "next/router";
 import { useRestaurantStore } from "../utils/useRestaurantStore";
 
 const FilterMenu = () => {
-  const { query } = useRouter();
-  const { sortByHighestRating, sortByLowestRating } = useRestaurantStore();
+  const {
+    sortByHighestRating,
+    sortByLowestRating,
+    sortByAffordable,
+    sortByExpensive,
+  } = useRestaurantStore();
 
   return (
-    <Menu>
+    <Menu closeOnSelect={false}>
       <MenuButton
         mx="2"
         as={IconButton}
@@ -30,14 +27,22 @@ const FilterMenu = () => {
         variant="outline"
       />
       <MenuList>
-        <MenuGroup title="Sort by">
-          <MenuItem icon={<FaRegThumbsUp />} onClick={sortByHighestRating}>
+        <MenuOptionGroup title="Ratings" type="radio">
+          <MenuItemOption value="best" onClick={sortByHighestRating}>
             Highest
-          </MenuItem>
-          <MenuItem icon={<FaRegThumbsDown />} onClick={sortByLowestRating}>
+          </MenuItemOption>
+          <MenuItemOption value="lowest" onClick={sortByLowestRating}>
             Lowest
-          </MenuItem>
-        </MenuGroup>
+          </MenuItemOption>
+        </MenuOptionGroup>
+        <MenuOptionGroup title="Budget" type="radio">
+          <MenuItemOption value="expensive" onClick={sortByExpensive}>
+            Expensive
+          </MenuItemOption>
+          <MenuItemOption value="affordable" onClick={sortByAffordable}>
+            Affordable
+          </MenuItemOption>
+        </MenuOptionGroup>
       </MenuList>
     </Menu>
   );
