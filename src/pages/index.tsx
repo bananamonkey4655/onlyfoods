@@ -12,6 +12,7 @@ import React, { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import Head from "next/head";
 
 import { getRandomItemFromArray } from "@/utils";
 import { foodData } from "@/utils/foodData";
@@ -46,55 +47,74 @@ const Home: NextPage = () => {
     setQuery("");
   };
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setCurrentFood(getRandomItemFromArray(foodData));
-  //   }, 3000);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentFood(getRandomItemFromArray(foodData));
+    }, 3000);
 
-  //   return () => clearInterval(interval);
-  // }, []);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <main className="flex flex-col lg:flex-row lg:gap-36 flex-auto justify-center items-center px-8">
-      <section className="flex-col">
-        <Heading>
-          Find <span className="text-red-500">tasty</span> food you love
-        </Heading>
-        <form className="py-3" onSubmit={handleSubmit}>
-          <InputGroup>
-            <Input
-              value={query}
-              onChange={handleChange}
-              placeholder="noodles, sushi, etc."
-            />
-            <InputRightElement
-              color="gray.300"
-              fontSize="1.2em"
-              onClick={handleSubmit}
-            >
-              {isLoading ? (
-                <Spinner label="loading..." size="sm" />
-              ) : (
-                <IconButton
-                  colorScheme="gray"
-                  aria-label="Search database"
-                  icon={<Search2Icon />}
-                />
-              )}
-            </InputRightElement>
-          </InputGroup>
-        </form>
-      </section>
-      <section className="w-full lg:w-auto flex justify-center items-center cursor-pointer">
-        <Image
-          src={currentFood?.image!}
-          width="500"
-          height="400"
-          alt="Pancakes. Yum!"
-          onClick={(event) => handleSubmit(event, currentFood?.name)}
+    <>
+      <Head>
+        <title>OnlyFoods</title>
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta
+          name="description"
+          content="Search for your favourite foods in Singapore!"
         />
-      </section>
-    </main>
+        <meta property="og:title" content="OnlyFoods" />
+        <meta
+          property="og:description"
+          content="A website to help you search for your favourite foods in Singapore!"
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://onlyfoods-blue.vercel.app" />
+        <meta property="og:image" content="http://localhost:3000/api/og" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <main className="flex flex-col lg:flex-row lg:gap-36 flex-auto justify-center items-center px-8">
+        <section className="flex-col">
+          <Heading>
+            Find <span className="text-red-500">tasty</span> food you love
+          </Heading>
+          <form className="py-3" onSubmit={handleSubmit}>
+            <InputGroup>
+              <Input
+                value={query}
+                onChange={handleChange}
+                placeholder="noodles, sushi, etc."
+              />
+              <InputRightElement
+                color="gray.300"
+                fontSize="1.2em"
+                onClick={handleSubmit}
+              >
+                {isLoading ? (
+                  <Spinner label="loading..." size="sm" />
+                ) : (
+                  <IconButton
+                    colorScheme="gray"
+                    aria-label="Search database"
+                    icon={<Search2Icon />}
+                  />
+                )}
+              </InputRightElement>
+            </InputGroup>
+          </form>
+        </section>
+        <section className="w-full lg:w-auto flex justify-center items-center cursor-pointer">
+          <Image
+            src={currentFood?.image!}
+            width="500"
+            height="400"
+            alt="Pancakes. Yum!"
+            onClick={(event) => handleSubmit(event, currentFood?.name)}
+          />
+        </section>
+      </main>
+    </>
   );
 };
 
