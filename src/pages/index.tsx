@@ -77,7 +77,11 @@ const Home: NextPage = () => {
       <main className="flex flex-col lg:flex-row lg:gap-36 flex-auto justify-center items-center px-8">
         <section className="flex-col">
           <Heading>
-            Find <span className="text-red-500">tasty</span> food you love
+            Find{" "}
+            <span className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 bg-clip-text text-transparent">
+              tasty
+            </span>{" "}
+            food you love
           </Heading>
           <form className="py-3" onSubmit={handleSubmit}>
             <InputGroup>
