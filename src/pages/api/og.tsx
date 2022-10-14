@@ -1,10 +1,11 @@
 import { ImageResponse } from "@vercel/og";
+import type { NextApiRequest } from "next";
 
 export const config = {
   runtime: "experimental-edge",
 };
 
-export default function handler(req) {
+export default function handler(req: NextApiRequest) {
   return new ImageResponse(
     (
       <div tw="flex items-center bg-gray-50 h-full w-full">
