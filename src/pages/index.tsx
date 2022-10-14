@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -47,13 +47,13 @@ const Home: NextPage = () => {
     setQuery("");
   };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentFood(getRandomItemFromArray(foodData));
-    }, 3000);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setCurrentFood(getRandomItemFromArray(foodData));
+  //   }, 3000);
 
-    return () => clearInterval(interval);
-  }, []);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   return (
     <>
@@ -71,7 +71,7 @@ const Home: NextPage = () => {
         />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://onlyfoods-blue.vercel.app" />
-        <meta property="og:image" content="http://localhost:3000/api/og" />
+        <meta property="og:image" content="/api/og" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex flex-col lg:flex-row lg:gap-36 flex-auto justify-center items-center px-8">
@@ -113,8 +113,9 @@ const Home: NextPage = () => {
             src={currentFood?.image!}
             width="500"
             height="400"
-            alt="Pancakes. Yum!"
+            alt="Food. Yum!"
             onClick={(event) => handleSubmit(event, currentFood?.name)}
+            priority
           />
         </section>
       </main>
